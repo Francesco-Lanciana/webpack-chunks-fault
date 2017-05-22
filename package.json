@@ -4,8 +4,29 @@
   "description": "Learn Webpack 2",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon --watch webpack.config.js --exec node server.js --env production",
+    "build": "webpack --env production",
+    "lint:js": "eslint app/ webpack.*.js --ignore-path .gitignore --cache -s",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-loader": "^1.7.1",
+    "eslint-plugin-compat": "^1.0.2",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-promise": "^3.5.0",
+    "express": "^4.15.3",
+    "friendly-errors-webpack-plugin": "^1.6.1",
+    "html-webpack-plugin": "^2.28.0",
+    "nodemon": "^1.11.0",
+    "webpack": "^2.5.1",
+    "webpack-dashboard": "^0.4.0",
+    "webpack-dev-middleware": "^1.10.2",
+    "webpack-merge": "^4.1.0"
+  },
+  "dependencies": {
+    "dotenv": "^4.0.0"
+  }
 }
