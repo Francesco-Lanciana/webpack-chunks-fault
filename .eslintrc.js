@@ -9,13 +9,11 @@ module.exports = {
     'promise',
     'compat',
     'import',
-    'css-modules',
   ],
   extends: [
     'eslint:recommended',
     'plugin:promise/recommended',
     'plugin:import/errors',
-    'plugin:css-modules/recommended',
   ],
   parserOptions: {
     sourceType: 'module',

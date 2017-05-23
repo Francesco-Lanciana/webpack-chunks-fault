@@ -1,3 +1,6 @@
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const PurifyCSSPlugin = require('purifycss-webpack');
+
 exports.lintJavascript = ({ include, exclude, options } = {}) => ({
   module: {
     rules: [
@@ -14,14 +17,13 @@ exports.lintJavascript = ({ include, exclude, options } = {}) => ({
   },
 });
 
-const commonStyleLoaders = [
-  'style-loader',
+// Rules that can be applied in production and development
+const commonStyleLoaders = ( {sourceMap} = false ) => ([
   {
     loader: 'css-loader',
     options: {
-      modules: true,
       importLoaders: 1,
-      sourceMap: true,
+      sourceMap,
     },
   },
   {
@@ -30,12 +32,18 @@ const commonStyleLoaders = [
       plugins: () => ([
         require('postcss-cssnext')(),
       ]),
-      sourceMap: true,
+      sourceMap,
     },
   },
-];
+]);
 
-const sassLoaders = commonStyleLoaders.concat({
+// Adds style-loader to loaders when in dev mode
+const devStyleLoaders = ( {sourceMap} = false ) => (
+  ['style-loader'].concat(commonStyleLoaders(sourceMap))
+);
+
+// Sass-loader and corresponding options
+const sassLoaders = commonStyleLoaders({ sourceMap: true }).concat({
   loader: 'sass-loader',
   options: {
     sourceMap: true,
@@ -44,6 +52,42 @@ const sassLoaders = commonStyleLoaders.concat({
 // postcss-loader and sass-loader should be applied to sass imports
 sassLoaders[1].options.importLoaders = 2;
 
+
+// Loaders and corresponding options applied to files in production
+exports.extractStyleSheets = ({ include, exclude } = {}) => {
+
+  const plugin = new ExtractTextPlugin({
+    filename: '[name].css',
+  });
+
+  return {
+    module: {
+      rules: [
+        {
+          test: /\.css$/,
+          include,
+          exclude,
+
+          use: plugin.extract({
+            use: commonStyleLoaders(),
+            fallback: 'style-loader',
+          }),
+        },
+        {
+          test: /\.scss$/,
+          use: plugin.extract({
+            use: sassLoaders,
+            fallback: 'style-loader',
+          }),
+        },
+      ],
+    },
+    plugins: [plugin],
+  };
+};
+
+// Loaders and corresponding options applied to files in development,
+// as style sheets are only extracted in production.
 exports.loadStyleSheets = ({ include, exclude } = {}) => ({
   module: {
     rules: [
@@ -51,7 +95,7 @@ exports.loadStyleSheets = ({ include, exclude } = {}) => ({
         test: /\.css$/,
         include,
         exclude,
-        use: commonStyleLoaders,
+        use: devStyleLoaders({ sourceMap: true }),
       },
       {
         test: /\.scss$/,
@@ -59,4 +103,11 @@ exports.loadStyleSheets = ({ include, exclude } = {}) => ({
       },
     ],
   },
+});
+
+// Plugin to remove unused css from build
+exports.purifyCSS = ({ paths }) => ({
+  plugins: [
+    new PurifyCSSPlugin({ paths }),
+  ],
 });

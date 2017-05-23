@@ -1,6 +1,7 @@
 require('dotenv').config();
 const path = require('path');
 const merge = require('webpack-merge');
+const glob = require('glob');
 
 const parts = require('./config/webpack.parts');
 const common = require('./config/webpack.common');
@@ -21,9 +22,24 @@ const commonConfig = merge([
       emitWarning: true,
     },
   }),
-  parts.loadStyleSheets(),
 ]);
 
-module.exports = () => {
-  return commonConfig;
+const productionConfig = merge([
+  commonConfig,
+  parts.extractStyleSheets({ exlude: /node_modules/ }),
+  parts.purifyCSS({
+    paths: glob.sync(`${PATHS.app}/**/*.js`, {nodir: true}),
+  }),
+]);
+
+const developmentConfig = merge([
+  commonConfig,
+  parts.loadStyleSheets({ exlude: /node_modules/ }),
+]);
+
+module.exports = (env) => {
+  if (env === 'production') {
+    return productionConfig;
+  }
+  return developmentConfig;
 };

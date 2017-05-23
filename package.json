@@ -7,6 +7,7 @@
     "start": "nodemon --watch webpack.config.js --exec node server.js --env production",
     "build": "webpack --env production",
     "lint:js": "eslint app/ webpack.*.js --ignore-path .gitignore --cache -s",
+    "lint:style": "stylelint app/**/*.css",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -16,24 +17,31 @@
     "eslint": "^3.19.0",
     "eslint-loader": "^1.7.1",
     "eslint-plugin-compat": "^1.0.2",
-    "eslint-plugin-css-modules": "^2.7.1",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-promise": "^3.5.0",
     "express": "^4.15.3",
+    "extract-text-webpack-plugin": "^2.1.0",
     "friendly-errors-webpack-plugin": "^1.6.1",
+    "glob": "^7.1.2",
     "html-webpack-plugin": "^2.28.0",
     "node-sass": "^4.5.3",
     "nodemon": "^1.11.0",
     "postcss-cssnext": "^2.11.0",
     "postcss-loader": "^2.0.5",
+    "purify-css": "^1.2.2",
+    "purifycss": "^1.1.9",
+    "purifycss-webpack": "^0.7.0",
     "sass-loader": "^6.0.5",
     "style-loader": "^0.18.0",
+    "stylelint": "^7.10.1",
+    "stylelint-scss": "^1.4.4",
     "webpack": "^2.5.1",
     "webpack-dashboard": "^0.4.0",
     "webpack-dev-middleware": "^1.10.2",
     "webpack-merge": "^4.1.0"
   },
   "dependencies": {
-    "dotenv": "^4.0.0"
+    "dotenv": "^4.0.0",
+    "purecss": "^0.6.2"
   }
 }
