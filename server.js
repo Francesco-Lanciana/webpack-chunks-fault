@@ -2,14 +2,14 @@ var express = require('express');
 var webpackDevMiddleware = require('webpack-dev-middleware');
 var webpack = require('webpack');
 var webpackConfig = require('./webpack.config')();
-const DashboardPlugin = require('webpack-dashboard/plugin');
+//const DashboardPlugin = require('webpack-dashboard/plugin');
 
 // Add nodemon --watch webpack.config.js --exec to npm start
 
 var app = express();
 var compiler = webpack(webpackConfig);
 
-compiler.apply(new DashboardPlugin({ port: process.env.PORT }));
+//compiler.apply(new DashboardPlugin({ port: process.env.PORT }));
 
 app.use(webpackDevMiddleware(compiler, {
   historyApiFallback: true,

@@ -7,6 +7,7 @@ exports.config = ({ entry, buildPath }) => ({
   },
   output: {
     path: buildPath,
+    publicPath: 'http://0.0.0.0' + ':' + process.env.PORT,
     filename: '[name].js',
   },
   plugins: [

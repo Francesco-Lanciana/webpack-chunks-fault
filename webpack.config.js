@@ -21,6 +21,7 @@ const commonConfig = merge([
       emitWarning: true,
     },
   }),
+  parts.loadStyleSheets(),
 ]);
 
 module.exports = () => {
