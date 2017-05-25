@@ -85,7 +85,7 @@ exports.extractStyleSheets = ({ include, exclude } = {}) => {
   };
 };
 
-sassLoaders.unshift('style-loader');
+//sassLoaders.unshift('style-loader');
 
 // Loaders and corresponding options applied to files in development,
 // as style sheets are only extracted in production.
@@ -171,6 +171,28 @@ exports.loadFonts = () => ({
           // Tweak publicPath to fix CSS lookups to take
           // the directory into account.
           publicPath: '../',
+        },
+      },
+    ],
+  },
+});
+
+exports.loadJavaScript = ({ include, exclude }) => ({
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        include,
+        exclude,
+
+        loader: 'babel-loader',
+        options: {
+          // Enable caching for improved performance during
+          // development.
+          // It uses default OS directory by default. If you need
+          // something more custom, pass a path to it.
+          // I.e., { cacheDirectory: '<path>' }
+          cacheDirectory: true,
         },
       },
     ],

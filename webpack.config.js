@@ -41,6 +41,10 @@ const productionConfig = merge([
     },
   }),
   parts.loadFonts(),
+  parts.loadJavaScript({
+    include: PATHS.app,
+    exlude: /(node_modules|bower_components)/,
+  }),
 ]);
 
 const developmentConfig = merge([

@@ -75,14 +75,15 @@
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__styles_main_scss___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__styles_main_scss__);
 
 
-/* harmony default export */ __webpack_exports__["a"] = ((text =  'Hello World') => {
-  const element = document.createElement('div');
+/* harmony default export */ __webpack_exports__["a"] = (function () {
+  var text = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'Hello World';
+
+  var element = document.createElement('div');
   element.innerHTML = text;
-  element.className = `pure-button ${__WEBPACK_IMPORTED_MODULE_0__styles_main_scss___default.a.redButton}`;
+  element.className = 'pure-button ' + __WEBPACK_IMPORTED_MODULE_0__styles_main_scss___default.a.redButton;
 
   return element;
 });
-
 
 /***/ }),
 /* 1 */
@@ -103,7 +104,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 document.body.appendChild(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__component__["a" /* default */])());
-
 
 /***/ }),
 /* 3 */
