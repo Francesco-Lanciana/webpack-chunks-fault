@@ -5,7 +5,6 @@ const glob = require('glob');
 
 const parts = require('./config/webpack.parts');
 const common = require('./config/webpack.common');
-var webpack = require('webpack');
 
 // const DEVELOPMENT = process.env.NODE_ENV === 'development';
 // const PRODUCTION = process.env.NODE_ENV === 'production';
@@ -28,6 +27,7 @@ const commonConfig = merge([
   }),
 ]);
 
+// Highest quality source map - GET RID OF WHEN ACTUALLY DEVELOPING
 const productionConfig = merge([
   commonConfig,
   parts.extractStyleSheets({ exlude: /node_modules/ }),
@@ -45,13 +45,23 @@ const productionConfig = merge([
     include: PATHS.app,
     exlude: /(node_modules|bower_components)/,
   }),
+  //parts.generateSourceMaps({ type: 'source-map' }),
 ]);
 
 const developmentConfig = merge([
   commonConfig,
   parts.loadStyleSheets({ exlude: /node_modules/ }),
   parts.loadImages(),
+  parts.loadFonts(),
+  parts.generateSourceMaps({ type: 'eval-source-map' }),
 ]);
+
+// {
+//   output: {
+//     devtoolModuleFilenameTemplate: 'webpack:///[absolute-resource-path]',
+//   },
+// },
+// parts.generateSourceMaps({ type: 'cheap-module-source-map' }),
 
 module.exports = (env) => {
   if (env === 'production') {

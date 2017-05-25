@@ -85,7 +85,7 @@ exports.extractStyleSheets = ({ include, exclude } = {}) => {
   };
 };
 
-//sassLoaders.unshift('style-loader');
+sassLoaders.unshift('style-loader');
 
 // Loaders and corresponding options applied to files in development,
 // as style sheets are only extracted in production.
@@ -197,4 +197,8 @@ exports.loadJavaScript = ({ include, exclude }) => ({
       },
     ],
   },
+});
+
+exports.generateSourceMaps = ({ type }) => ({
+  devtool: type,
 });

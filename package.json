@@ -4,7 +4,7 @@
   "description": "Learn Webpack 2",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --watch webpack.config.js --exec node server.js --env production",
+    "start": "nodemon --watch webpack.config.js --exec node server.js --env development",
     "build": "webpack --env production",
     "lint:js": "eslint app/ webpack.*.js --ignore-path .gitignore --cache -s",
     "lint:style": "stylelint app/**/*.css",
