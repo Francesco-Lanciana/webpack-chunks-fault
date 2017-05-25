@@ -85,6 +85,8 @@ exports.extractStyleSheets = ({ include, exclude } = {}) => {
   };
 };
 
+sassLoaders.unshift('style-loader');
+
 // Loaders and corresponding options applied to files in development,
 // as style sheets are only extracted in production.
 exports.loadStyleSheets = ({ include, exclude } = {}) => ({
@@ -109,4 +111,36 @@ exports.purifyCSS = ({ paths }) => ({
   plugins: [
     new PurifyCSSPlugin({ paths }),
   ],
+});
+
+exports.loadImages = ({ include, exclude, options } = {}) => ({
+  module: {
+    rules: [
+      {
+        test: /\.(gif|png|jpe?g)$/i,
+        include,
+        exclude,
+
+        use: [
+          {
+            loader: 'url-loader',
+            options,
+          },
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              pngquant: {
+                quality: '35-60',
+                speed: 4,
+              },
+            },
+          },
+        ],
+      },
+      {
+        test: /\.svg$/,
+        use: 'file-loader',
+      },
+    ],
+  },
 });

@@ -11,19 +11,32 @@ var compiler = webpack(webpackConfig);
 
 //compiler.apply(new DashboardPlugin({ port: process.env.PORT }));
 
+const PORT = process.env.PORT || 8080;
+
+// https redirect (CHANGE LATER)
+app.use(function (req, res, next) {
+  if (req.headers['x-forwarded-proto'] === 'https') {
+    res.redirect('http://' + req.hostname + req.url);
+  } else {
+    next();
+  }
+});
+
+//TODO ADD PRODUCTION SERVER
+// if (process.env === 'production') {
+//   // Tell it which folder we want to serve
+//   app.use(express.static('public'));
+// } else {
+//
+// }
+
+
 app.use(webpackDevMiddleware(compiler, {
-  historyApiFallback: true,
   stats: 'errors-only',
-  host: process.env.HOST,
-  port: process.env.PORT,
-  quiet: true,
-  overlay: {
-    errors: true,
-    warnings: true,
-  },
+  //quiet: true,
   publicPath: '/', // Same as `output.publicPath` in most cases.
 }));
 
-app.listen(process.env.PORT, function () {
-  console.log(`Listening on port ${process.env.PORT}!`);
+app.listen(PORT, function () {
+  console.log(`Listening on port ${PORT}!`);
 });
