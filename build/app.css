@@ -128,7 +128,7 @@ button::-moz-focus-inner {
 
 body {
   background: cornsilk;
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkBAMAAACCzIhnAAAAMFBMVEUKCv9ISP8yMv9cXP9vb/8eHv+AgP+Pj//5+f+dnf+qqv/ExP/r6//R0f+3t//e3v9zd78jAAABvElEQVRYw+2NTWqDQBiG300OYHMCAz1AMDeIuA5CbiDmBg7ewEX2wd4gWfQC0q5dCB6gSPYN9ASG9BsNSU1T6jtQV3185/sZfBjgn79nZKCMFksqCyxJYzTCgnWWWNIMpTz6ZODTDh4nPhnQho/JxCcjCstQyoNNBjbt4MGyyYAVbBukYFkWLBKbV6yhlPF46nDBdDq2uMAZOySQl0jg0AykzGgwn88cLvLK3OUC1+WMuQt35pLAdQdRPFoJgiD0Qi8I+zUJPE83KUHfhjDUqpQm5+nHpo9WLvwm6H6j9MNEWdEgiiK1ihqkd3J3iyIopRelmn7JSkXN1910VwqKxlSJb2/ju9u5Y3MljeO2CtJ0OlvcFsRpnMqkv00z6Lo5G+3ddWoK0lR++0JnuQtSGhNlS4Pt7qlNy3m47N/ZYUczkPJMg4/ndzL4oBlIeaURJTtQZMiyQ0ZxQEZjorzQoHp5I4Oqqt6YVJVWSEyUIw32+/3xRGR/xOl0ZCJHFBYTpaY4lWWJoi6LupapTy0LGVAUddGcskcttCMKi4myzvO8WDMgl5LkDEjyJFknDGibSHm3/HBzVQxe+WPlE6C0iLDYnQuoAAAAAElFTkSuQmCC);
+  background-image: url(http://0.0.0.0:8080logo.png);
   background-repeat: no-repeat;
   background-position: center;
   display: -webkit-box;
@@ -138,4 +138,10 @@ body {
 
 .redButton {
   background: #FFF;
+}
+
+@font-face {
+  font-family: 'myfontfamily';
+  src: url(.././fonts/NunitoRegular.ttf) format("truetype");
+  /* Add other formats as you see fit */
 }

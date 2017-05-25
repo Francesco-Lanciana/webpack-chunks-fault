@@ -144,3 +144,35 @@ exports.loadImages = ({ include, exclude, options } = {}) => ({
     ],
   },
 });
+
+
+exports.loadFonts = () => ({
+  module: {
+    rules: [
+      {
+        test: /\.(ttf|eot|woff|woff2)$/,
+        loader: 'file-loader',
+        options: {
+          name: './fonts/[name].[ext]',
+          publicPath: '../',
+        },
+      },
+      {
+        // Match woff2 in addition to patterns like .woff?v=1.1.1.
+        test: /\.woff2?(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'url-loader',
+        options: {
+          limit: 50000,
+          mimetype: 'application/font-woff',
+
+          // Output below the fonts directory
+          name: './fonts/[name].[ext]',
+
+          // Tweak publicPath to fix CSS lookups to take
+          // the directory into account.
+          publicPath: '../',
+        },
+      },
+    ],
+  },
+});

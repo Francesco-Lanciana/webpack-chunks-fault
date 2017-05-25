@@ -40,6 +40,7 @@ const productionConfig = merge([
       name: '[name].[ext]',
     },
   }),
+  parts.loadFonts(),
 ]);
 
 const developmentConfig = merge([
