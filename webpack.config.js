@@ -29,7 +29,10 @@ const commonConfig = merge([
 
 // Highest quality source map - GET RID OF WHEN ACTUALLY DEVELOPING
 const productionConfig = merge([
-  commonConfig,
+  parts.clean({
+    root: __dirname,
+    path: 'build',
+  }),
   parts.extractStyleSheets({ exlude: /node_modules/ }),
   parts.purifyCSS({
     paths: glob.sync(`${PATHS.app}/**/*.js`, {nodir: true}),
@@ -45,15 +48,29 @@ const productionConfig = merge([
     include: PATHS.app,
     exlude: /(node_modules|bower_components)/,
   }),
+  parts.extractBundles([
+    {
+      name: 'vendor',
+      minChunks: ({ resource }) => (
+        resource &&
+        resource.indexOf('node_modules') >= 0 &&
+        resource.match(/\.js$/)
+      ),
+    },
+  ]),
   //parts.generateSourceMaps({ type: 'source-map' }),
 ]);
 
 const developmentConfig = merge([
-  commonConfig,
+  {
+    output: {
+      devtoolModuleFilenameTemplate: 'webpack:///[absolute-resource-path]',
+    },
+  },
+  parts.generateSourceMaps({ type: 'cheap-module-source-map' }),
   parts.loadStyleSheets({ exlude: /node_modules/ }),
   parts.loadImages(),
   parts.loadFonts(),
-  parts.generateSourceMaps({ type: 'eval-source-map' }),
 ]);
 
 // {
@@ -64,8 +81,9 @@ const developmentConfig = merge([
 // parts.generateSourceMaps({ type: 'cheap-module-source-map' }),
 
 module.exports = (env) => {
-  if (env === 'production') {
-    return productionConfig;
-  }
-  return developmentConfig;
+  const config = env === 'production' ?
+    productionConfig :
+    developmentConfig;
+
+  return merge([commonConfig, config]);
 };

@@ -1,9 +1,16 @@
-import styles from './styles/main.scss';
-
 export default (text =  'Hello World') => {
+  //console.log(lazy.default);
   const element = document.createElement('div');
   element.innerHTML = text;
-  element.className = `pure-button ${styles.redButton}`;
+
+  element.onclick = () => {
+    import('./lazy').then((lazy) => {
+      element.textContent = lazy.default;
+      return lazy.default;
+    }).catch((err) => {
+      console.error(err);
+    });
+  };
 
   return element;
 };

@@ -15,8 +15,10 @@ module.exports = {
     'plugin:promise/recommended',
     'plugin:import/errors',
   ],
+  parser: 'babel-eslint',
   parserOptions: {
     sourceType: 'module',
+    allowImportExportEverywhere: true,
   },
   rules: {
     'comma-dangle': ['error', 'always-multiline'],
