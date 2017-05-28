@@ -1,5 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
+//const InlineChunkWebpackPlugin = require('html-webpack-inline-chunk-plugin');
 
 exports.config = ({ entry, buildPath }) => ({
   entry: {
@@ -12,7 +13,11 @@ exports.config = ({ entry, buildPath }) => ({
   plugins: [
     new HtmlWebpackPlugin({
       title: 'Webpack Demo',
+      //excludeChunks: ['vendor'],
     }),
+    // new InlineChunkWebpackPlugin({
+    //   inlineChunks: ['manifest'],
+    // }),
     new FriendlyErrorsWebpackPlugin(),
   ],
 

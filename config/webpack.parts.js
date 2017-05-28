@@ -2,6 +2,9 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const PurifyCSSPlugin = require('purifycss-webpack');
 const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const BabiliPlugin = require('babili-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const cssnano = require('cssnano');
 
 exports.lintJavascript = ({ include, exclude, options } = {}) => ({
   module: {
@@ -58,7 +61,7 @@ sassLoaders[1].options.importLoaders = 2;
 exports.extractStyleSheets = ({ include, exclude } = {}) => {
 
   const plugin = new ExtractTextPlugin({
-    filename: '[name].css',
+    filename: '[name].[contenthash:8].css',
   });
 
   return {
@@ -148,31 +151,18 @@ exports.loadImages = ({ include, exclude, options } = {}) => ({
 });
 
 
-exports.loadFonts = () => ({
+exports.loadFonts = ({ include, exclude, options } = {}) => ({
   module: {
     rules: [
       {
-        test: /\.(ttf|eot|woff|woff2)$/,
-        loader: 'file-loader',
-        options: {
-          name: './fonts/[name].[ext]',
-          publicPath: '../',
-        },
-      },
-      {
-        // Match woff2 in addition to patterns like .woff?v=1.1.1.
-        test: /\.woff2?(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'url-loader',
-        options: {
-          limit: 50000,
-          mimetype: 'application/font-woff',
+        // Capture eot, ttf, woff, and woff2
+        test: /\.(eot|ttf|woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
+        include,
+        exclude,
 
-          // Output below the fonts directory
-          name: './fonts/[name].[ext]',
-
-          // Tweak publicPath to fix CSS lookups to take
-          // the directory into account.
-          publicPath: '../',
+        use: {
+          loader: 'file-loader',
+          options,
         },
       },
     ],
@@ -217,4 +207,49 @@ exports.clean = ({root, path}) => ({
       root,
     }),
   ],
+});
+
+exports.minifyJavaScript = () => ({
+  plugins: [
+    new BabiliPlugin(),
+  ],
+});
+
+exports.minifyCSS = ({ options }) => ({
+  plugins: [
+    new OptimizeCSSAssetsPlugin({
+      cssProcessor: cssnano,
+      cssProcessorOptions: options,
+      canPrint: false,
+    }),
+  ],
+});
+
+exports.setFreeVariable = (key, value) => {
+  const env = {};
+  env[key] = JSON.stringify(value);
+
+  return {
+    plugins: [
+      new webpack.DefinePlugin(env),
+    ],
+  };
+};
+
+exports.nameAllModules = () => ({
+  plugins: [{
+    apply(compiler) {
+      compiler.plugin('compilation', (compilation) => {
+        compilation.plugin('before-module-ids', (modules) => {
+          modules.forEach((module) => {
+            console.log(module.id);
+            if (module.id !== null) {
+              return;
+            }
+            module.id = module.identifier();
+          });
+        });
+      });
+    },
+  }],
 });
