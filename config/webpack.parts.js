@@ -1,55 +1,5 @@
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-
-// Rules that can be applied in production and development
-const styleLoaders = () => ([
-  {
-    loader: 'css-loader',
-    options: {
-      importLoaders: 2,
-      sourceMap: true,
-    },
-  },
-  {
-    loader: 'postcss-loader',
-    options: {
-      plugins: () => ([
-        require('postcss-cssnext')(),
-      ]),
-      sourceMap: true,
-    },
-  },
-  {
-    loader: 'sass-loader',
-    options: {
-      sourceMap: true,
-    },
-  }
-]);
-
-// Loaders and corresponding options applied to files in production
-exports.extractStyleSheets = ({ include, exclude } = {}) => {
-
-  const plugin = new ExtractTextPlugin({
-    filename: '[name].[contenthash:8].css',
-  });
-
-  return {
-    module: {
-      rules: [
-        {
-          test: /\.scss$/,
-          use: plugin.extract({
-            use: styleLoaders(),
-            fallback: 'style-loader',
-          }),
-        },
-      ],
-    },
-    plugins: [plugin],
-  };
-};
 
 exports.loadJavaScript = ({ include, exclude }) => ({
   module: {

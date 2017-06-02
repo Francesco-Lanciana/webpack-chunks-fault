@@ -1,5 +1,4 @@
 export default (text =  'Hello World') => {
-  //console.log(lazy.default);
   const element = document.createElement('div');
   element.innerHTML = text;
 

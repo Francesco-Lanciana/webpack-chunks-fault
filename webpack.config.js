@@ -5,9 +5,6 @@ const parts = require('./config/webpack.parts');
 const common = require('./config/webpack.common');
 const webpack = require('webpack');
 
-// const DEVELOPMENT = process.env.NODE_ENV === 'development';
-// const PRODUCTION = process.env.NODE_ENV === 'production';
-
 const PATHS = {
   app: path.join(__dirname, 'app'),
   build: path.join(__dirname, 'build'),
@@ -58,7 +55,6 @@ const productionConfig = merge([
       minChunks: Infinity,
     },
   ]),
-  parts.extractStyleSheets(),
   parts.loadJavaScript({
     include: PATHS.app,
   }),
